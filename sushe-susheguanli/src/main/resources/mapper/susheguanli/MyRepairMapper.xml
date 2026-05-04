@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sushe.susheguanli.mapper.MyRepairMapper">
+    
+    <resultMap type="MyRepair" id="MyRepairResult">
+        <result property="repairId"    column="repair_id"    />
+        <result property="roomId"    column="room_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="repairType"    column="repair_type"    />
+        <result property="description"    column="description"    />
+        <result property="images"    column="images"    />
+        <result property="status"    column="status"    />
+        <result property="handler"    column="handler"    />
+        <result property="handleResult"    column="handle_result"    />
+        <result property="applyDate"    column="apply_date"    />
+        <result property="handleDate"    column="handle_date"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectMyRepairVo">
+        select repair_id, room_id, student_id, repair_type, description, images, status, handler, handle_result, apply_date, handle_date, create_by, create_time, update_by, update_time from my_repair
+    </sql>
+
+    <select id="selectMyRepairList" parameterType="MyRepair" resultMap="MyRepairResult">
+        <include refid="selectMyRepairVo"/>
+        <where>  
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectMyRepairByRepairId" parameterType="Long" resultMap="MyRepairResult">
+        <include refid="selectMyRepairVo"/>
+        where repair_id = #{repairId}
+    </select>
+
+    <insert id="insertMyRepair" parameterType="MyRepair" useGeneratedKeys="true" keyProperty="repairId">
+        insert into my_repair
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roomId != null">room_id,</if>
+            <if test="studentId != null">student_id,</if>
+            <if test="repairType != null and repairType != ''">repair_type,</if>
+            <if test="description != null">description,</if>
+            <if test="images != null">images,</if>
+            <if test="status != null">status,</if>
+            <if test="handler != null">handler,</if>
+            <if test="handleResult != null">handle_result,</if>
+            <if test="applyDate != null">apply_date,</if>
+            <if test="handleDate != null">handle_date,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roomId != null">#{roomId},</if>
+            <if test="studentId != null">#{studentId},</if>
+            <if test="repairType != null and repairType != ''">#{repairType},</if>
+            <if test="description != null">#{description},</if>
+            <if test="images != null">#{images},</if>
+            <if test="status != null">#{status},</if>
+            <if test="handler != null">#{handler},</if>
+            <if test="handleResult != null">#{handleResult},</if>
+            <if test="applyDate != null">#{applyDate},</if>
+            <if test="handleDate != null">#{handleDate},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMyRepair" parameterType="MyRepair">
+        update my_repair
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="roomId != null">room_id = #{roomId},</if>
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="repairType != null and repairType != ''">repair_type = #{repairType},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="images != null">images = #{images},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="handler != null">handler = #{handler},</if>
+            <if test="handleResult != null">handle_result = #{handleResult},</if>
+            <if test="applyDate != null">apply_date = #{applyDate},</if>
+            <if test="handleDate != null">handle_date = #{handleDate},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where repair_id = #{repairId}
+    </update>
+
+    <delete id="deleteMyRepairByRepairId" parameterType="Long">
+        delete from my_repair where repair_id = #{repairId}
+    </delete>
+
+    <delete id="deleteMyRepairByRepairIds" parameterType="String">
+        delete from my_repair where repair_id in 
+        <foreach item="repairId" collection="array" open="(" separator="," close=")">
+            #{repairId}
+        </foreach>
+    </delete>
+</mapper>

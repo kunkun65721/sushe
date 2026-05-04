@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sushe.susheguanli.mapper.MyStudentMapper">
+    
+    <resultMap type="MyStudent" id="MyStudentResult">
+        <result property="studentId"    column="student_id"    />
+        <result property="studentNumber"    column="student_number"    />
+        <result property="studentName"    column="student_name"    />
+        <result property="gender"    column="gender"    />
+        <result property="phone"    column="phone"    />
+        <result property="email"    column="email"    />
+        <result property="major"    column="major"    />
+        <result property="className"    column="class_name"    />
+        <result property="grade"    column="grade"    />
+        <result property="idCard"    column="id_card"    />
+        <result property="studentStatus"    column="student_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectMyStudentVo">
+        select student_id, student_number, student_name, gender, phone, email, major, class_name, grade, id_card, student_status, create_by, create_time, update_by, update_time, remark from my_student
+    </sql>
+
+    <select id="selectMyStudentList" parameterType="MyStudent" resultMap="MyStudentResult">
+        <include refid="selectMyStudentVo"/>
+        <where>  
+            <if test="studentNumber != null  and studentNumber != ''"> and student_number = #{studentNumber}</if>
+            <if test="studentName != null  and studentName != ''"> and student_name like concat('%', #{studentName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectMyStudentByStudentId" parameterType="Long" resultMap="MyStudentResult">
+        <include refid="selectMyStudentVo"/>
+        where student_id = #{studentId}
+    </select>
+
+    <insert id="insertMyStudent" parameterType="MyStudent" useGeneratedKeys="true" keyProperty="studentId">
+        insert into my_student
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentNumber != null and studentNumber != ''">student_number,</if>
+            <if test="studentName != null and studentName != ''">student_name,</if>
+            <if test="gender != null">gender,</if>
+            <if test="phone != null">phone,</if>
+            <if test="email != null">email,</if>
+            <if test="major != null">major,</if>
+            <if test="className != null">class_name,</if>
+            <if test="grade != null">grade,</if>
+            <if test="idCard != null">id_card,</if>
+            <if test="studentStatus != null">student_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentNumber != null and studentNumber != ''">#{studentNumber},</if>
+            <if test="studentName != null and studentName != ''">#{studentName},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="major != null">#{major},</if>
+            <if test="className != null">#{className},</if>
+            <if test="grade != null">#{grade},</if>
+            <if test="idCard != null">#{idCard},</if>
+            <if test="studentStatus != null">#{studentStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMyStudent" parameterType="MyStudent">
+        update my_student
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentNumber != null and studentNumber != ''">student_number = #{studentNumber},</if>
+            <if test="studentName != null and studentName != ''">student_name = #{studentName},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="major != null">major = #{major},</if>
+            <if test="className != null">class_name = #{className},</if>
+            <if test="grade != null">grade = #{grade},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="studentStatus != null">student_status = #{studentStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where student_id = #{studentId}
+    </update>
+
+    <delete id="deleteMyStudentByStudentId" parameterType="Long">
+        delete from my_student where student_id = #{studentId}
+    </delete>
+
+    <delete id="deleteMyStudentByStudentIds" parameterType="String">
+        delete from my_student where student_id in 
+        <foreach item="studentId" collection="array" open="(" separator="," close=")">
+            #{studentId}
+        </foreach>
+    </delete>
+</mapper>

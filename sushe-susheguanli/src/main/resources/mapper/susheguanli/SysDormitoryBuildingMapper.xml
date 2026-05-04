@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sushe.susheguanli.mapper.SysDormitoryBuildingMapper">
+    
+    <resultMap type="SysDormitoryBuilding" id="SysDormitoryBuildingResult">
+        <result property="buildingId"    column="building_id"    />
+        <result property="buildingName"    column="building_name"    />
+        <result property="buildingType"    column="building_type"    />
+        <result property="floorCount"    column="floor_count"    />
+        <result property="roomCount"    column="room_count"    />
+        <result property="buildingStatus"    column="building_status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysDormitoryBuildingVo">
+        select building_id, building_name, building_type, floor_count, room_count, building_status, create_by, create_time, update_by, update_time, remark from my_dormitory_building
+    </sql>
+
+    <select id="selectSysDormitoryBuildingList" parameterType="SysDormitoryBuilding" resultMap="SysDormitoryBuildingResult">
+        <include refid="selectSysDormitoryBuildingVo"/>
+        <where>  
+            <if test="buildingName != null  and buildingName != ''"> and building_name like concat('%', #{buildingName}, '%')</if>
+            <if test="buildingType != null  and buildingType != ''"> and building_type = #{buildingType}</if>
+            <if test="buildingStatus != null  and buildingStatus != ''"> and building_status = #{buildingStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysDormitoryBuildingByBuildingId" parameterType="Long" resultMap="SysDormitoryBuildingResult">
+        <include refid="selectSysDormitoryBuildingVo"/>
+        where building_id = #{buildingId}
+    </select>
+
+    <insert id="insertSysDormitoryBuilding" parameterType="SysDormitoryBuilding" useGeneratedKeys="true" keyProperty="buildingId">
+        insert into my_dormitory_building
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="buildingName != null and buildingName != ''">building_name,</if>
+            <if test="buildingType != null and buildingType != ''">building_type,</if>
+            <if test="floorCount != null">floor_count,</if>
+            <if test="roomCount != null">room_count,</if>
+            <if test="buildingStatus != null and buildingStatus != ''">building_status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="buildingName != null and buildingName != ''">#{buildingName},</if>
+            <if test="buildingType != null and buildingType != ''">#{buildingType},</if>
+            <if test="floorCount != null">#{floorCount},</if>
+            <if test="roomCount != null">#{roomCount},</if>
+            <if test="buildingStatus != null and buildingStatus != ''">#{buildingStatus},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysDormitoryBuilding" parameterType="SysDormitoryBuilding">
+        update my_dormitory_building
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="buildingName != null and buildingName != ''">building_name = #{buildingName},</if>
+            <if test="buildingType != null and buildingType != ''">building_type = #{buildingType},</if>
+            <if test="floorCount != null">floor_count = #{floorCount},</if>
+            <if test="roomCount != null">room_count = #{roomCount},</if>
+            <if test="buildingStatus != null and buildingStatus != ''">building_status = #{buildingStatus},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where building_id = #{buildingId}
+    </update>
+
+    <delete id="deleteSysDormitoryBuildingByBuildingId" parameterType="Long">
+        delete from my_dormitory_building where building_id = #{buildingId}
+    </delete>
+
+    <delete id="deleteSysDormitoryBuildingByBuildingIds" parameterType="String">
+        delete from my_dormitory_building where building_id in 
+        <foreach item="buildingId" collection="array" open="(" separator="," close=")">
+            #{buildingId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sushe.susheguanli.mapper.MyDormitoryInspectionMapper">
+    
+    <resultMap type="MyDormitoryInspection" id="MyDormitoryInspectionResult">
+        <result property="inspectionId"    column="inspection_id"    />
+        <result property="roomId"    column="room_id"    />
+        <result property="inspector"    column="inspector"    />
+        <result property="inspectionDate"    column="inspection_date"    />
+        <result property="score"    column="score"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectMyDormitoryInspectionVo">
+        select inspection_id, room_id, inspector, inspection_date, score, remark, create_by, create_time, update_by, update_time from my_dormitory_inspection
+    </sql>
+
+    <select id="selectMyDormitoryInspectionList" parameterType="MyDormitoryInspection" resultMap="MyDormitoryInspectionResult">
+        <include refid="selectMyDormitoryInspectionVo"/>
+        <where>  
+            <if test="roomId != null "> and room_id = #{roomId}</if>
+            <if test="inspector != null  and inspector != ''"> and inspector = #{inspector}</if>
+            <if test="inspectionDate != null "> and inspection_date = #{inspectionDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectMyDormitoryInspectionByInspectionId" parameterType="Long" resultMap="MyDormitoryInspectionResult">
+        <include refid="selectMyDormitoryInspectionVo"/>
+        where inspection_id = #{inspectionId}
+    </select>
+
+    <insert id="insertMyDormitoryInspection" parameterType="MyDormitoryInspection" useGeneratedKeys="true" keyProperty="inspectionId">
+        insert into my_dormitory_inspection
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="roomId != null">room_id,</if>
+            <if test="inspector != null and inspector != ''">inspector,</if>
+            <if test="inspectionDate != null">inspection_date,</if>
+            <if test="score != null">score,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="roomId != null">#{roomId},</if>
+            <if test="inspector != null and inspector != ''">#{inspector},</if>
+            <if test="inspectionDate != null">#{inspectionDate},</if>
+            <if test="score != null">#{score},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMyDormitoryInspection" parameterType="MyDormitoryInspection">
+        update my_dormitory_inspection
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="roomId != null">room_id = #{roomId},</if>
+            <if test="inspector != null and inspector != ''">inspector = #{inspector},</if>
+            <if test="inspectionDate != null">inspection_date = #{inspectionDate},</if>
+            <if test="score != null">score = #{score},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where inspection_id = #{inspectionId}
+    </update>
+
+    <delete id="deleteMyDormitoryInspectionByInspectionId" parameterType="Long">
+        delete from my_dormitory_inspection where inspection_id = #{inspectionId}
+    </delete>
+
+    <delete id="deleteMyDormitoryInspectionByInspectionIds" parameterType="String">
+        delete from my_dormitory_inspection where inspection_id in 
+        <foreach item="inspectionId" collection="array" open="(" separator="," close=")">
+            #{inspectionId}
+        </foreach>
+    </delete>
+</mapper>

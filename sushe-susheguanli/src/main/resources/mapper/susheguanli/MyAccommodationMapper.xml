@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sushe.susheguanli.mapper.MyAccommodationMapper">
+    
+    <resultMap type="MyAccommodation" id="MyAccommodationResult">
+        <result property="accommodationId"    column="accommodation_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="roomId"    column="room_id"    />
+        <result property="bedNumber"    column="bed_number"    />
+        <result property="checkInDate"    column="check_in_date"    />
+        <result property="checkOutDate"    column="check_out_date"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectMyAccommodationVo">
+        select accommodation_id, student_id, room_id, bed_number, check_in_date, check_out_date, status, create_by, create_time, update_by, update_time, remark from my_accommodation
+    </sql>
+
+    <select id="selectMyAccommodationList" parameterType="MyAccommodation" resultMap="MyAccommodationResult">
+        <include refid="selectMyAccommodationVo"/>
+        <where>  
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="roomId != null "> and room_id = #{roomId}</if>
+            <if test="bedNumber != null "> and bed_number = #{bedNumber}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectMyAccommodationByAccommodationId" parameterType="Long" resultMap="MyAccommodationResult">
+        <include refid="selectMyAccommodationVo"/>
+        where accommodation_id = #{accommodationId}
+    </select>
+
+    <insert id="insertMyAccommodation" parameterType="MyAccommodation" useGeneratedKeys="true" keyProperty="accommodationId">
+        insert into my_accommodation
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="roomId != null">room_id,</if>
+            <if test="bedNumber != null">bed_number,</if>
+            <if test="checkInDate != null">check_in_date,</if>
+            <if test="checkOutDate != null">check_out_date,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="roomId != null">#{roomId},</if>
+            <if test="bedNumber != null">#{bedNumber},</if>
+            <if test="checkInDate != null">#{checkInDate},</if>
+            <if test="checkOutDate != null">#{checkOutDate},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMyAccommodation" parameterType="MyAccommodation">
+        update my_accommodation
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="roomId != null">room_id = #{roomId},</if>
+            <if test="bedNumber != null">bed_number = #{bedNumber},</if>
+            <if test="checkInDate != null">check_in_date = #{checkInDate},</if>
+            <if test="checkOutDate != null">check_out_date = #{checkOutDate},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where accommodation_id = #{accommodationId}
+    </update>
+
+    <delete id="deleteMyAccommodationByAccommodationId" parameterType="Long">
+        delete from my_accommodation where accommodation_id = #{accommodationId}
+    </delete>
+
+    <delete id="deleteMyAccommodationByAccommodationIds" parameterType="String">
+        delete from my_accommodation where accommodation_id in 
+        <foreach item="accommodationId" collection="array" open="(" separator="," close=")">
+            #{accommodationId}
+        </foreach>
+    </delete>
+</mapper>
