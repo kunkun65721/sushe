@@ -12,9 +12,9 @@ CREATE TABLE `my_student_habit` (
   `tolerate_dirty` VARCHAR(50) DEFAULT NULL COMMENT '能否接受室友不打扫',
   `study_location` VARCHAR(50) DEFAULT NULL COMMENT '学习地点',
   `friend_visit` VARCHAR(50) DEFAULT NULL COMMENT '欢迎室友带朋友',
-  `temperature_preference` VARCHAR(50) DEFAULT NULL COMMENT '空调温度偏好',
+  `gaming_mic` VARCHAR(50) DEFAULT NULL COMMENT '是否接受室友开麦游戏',
   `snoring` VARCHAR(50) DEFAULT NULL COMMENT '是否打呼噜',
-  `fill_status` CHAR(1) DEFAULT '0' COMMENT '填写状态 (0-未填写, 1-已填写)',
+  `fill_status` CHAR(1) DEFAULT '0' COMMENT '填写状态',
   `fill_time` DATETIME DEFAULT NULL COMMENT '填写时间',
   `create_by` VARCHAR(64) DEFAULT '' COMMENT '创建者',
   `create_time` DATETIME DEFAULT NULL COMMENT '创建时间',
@@ -29,7 +29,7 @@ DELETE FROM sys_dict_type WHERE dict_type IN (
   'dormitory_sleep_habit', 'dormitory_sleep_time', 'dormitory_wake_time',
   'dormitory_nap_habit', 'dormitory_bath_frequency', 'dormitory_clean_importance',
   'dormitory_tolerate_dirty', 'dormitory_study_location', 'dormitory_friend_visit',
-  'dormitory_temperature', 'sys_fill_status'
+  'dormitory_gaming_mic', 'dormitory_snoring', 'sys_fill_status'
 );
 
 INSERT INTO sys_dict_type (dict_id, dict_type, dict_name, status, create_by, create_time) VALUES
@@ -42,7 +42,7 @@ INSERT INTO sys_dict_type (dict_id, dict_type, dict_name, status, create_by, cre
 (36, 'dormitory_tolerate_dirty', '能否接受室友不打扫', '0', 'admin', sysdate()),
 (37, 'dormitory_study_location', '学习地点', '0', 'admin', sysdate()),
 (38, 'dormitory_friend_visit', '欢迎室友带朋友', '0', 'admin', sysdate()),
-(39, 'dormitory_temperature', '空调温度偏好', '0', 'admin', sysdate()),
+(39, 'dormitory_gaming_mic', '是否接受室友开麦游戏', '0', 'admin', sysdate()),
 (40, 'dormitory_snoring', '是否打呼噜', '0', 'admin', sysdate()),
 (41, 'sys_fill_status', '填写状态', '0', 'admin', sysdate());
 
@@ -51,7 +51,7 @@ DELETE FROM sys_dict_data WHERE dict_type IN (
   'dormitory_sleep_habit', 'dormitory_sleep_time', 'dormitory_wake_time',
   'dormitory_nap_habit', 'dormitory_bath_frequency', 'dormitory_clean_importance',
   'dormitory_tolerate_dirty', 'dormitory_study_location', 'dormitory_friend_visit',
-  'dormitory_temperature', 'dormitory_snoring', 'sys_fill_status'
+  'dormitory_gaming_mic', 'dormitory_snoring', 'sys_fill_status'
 );
 
 -- 作息习惯
@@ -111,18 +111,18 @@ INSERT INTO sys_dict_data (dict_code, dict_type, dict_label, dict_value, css_cla
 (158, 'dormitory_friend_visit', '无所谓', '无所谓', '', 'info', '0', 'admin', sysdate(), ''),
 (159, 'dormitory_friend_visit', '不喜欢', '不喜欢', '', 'warning', '0', 'admin', sysdate(), '');
 
--- 空调温度偏好
+-- 是否接受室友开麦游戏
 INSERT INTO sys_dict_data (dict_code, dict_type, dict_label, dict_value, css_class, list_class, status, create_by, create_time, remark) VALUES
-(160, 'dormitory_temperature', '怕热(喜欢低温)', '怕热', '', 'danger', '0', 'admin', sysdate(), ''),
-(161, 'dormitory_temperature', '正常', '正常', '', 'success', '0', 'admin', sysdate(), ''),
-(162, 'dormitory_temperature', '怕冷(喜欢高温)', '怕冷', '', 'primary', '0', 'admin', sysdate(), '');
+(160, 'dormitory_gaming_mic', '完全接受', '完全接受', '', 'success', '0', 'admin', sysdate(), ''),
+(161, 'dormitory_gaming_mic', '无所谓', '无所谓', '', 'info', '0', 'admin', sysdate(), ''),
+(162, 'dormitory_gaming_mic', '不能接受', '不能接受', '', 'danger', '0', 'admin', sysdate(), '');
 
 -- 是否打呼噜
 INSERT INTO sys_dict_data (dict_code, dict_type, dict_label, dict_value, css_class, list_class, status, create_by, create_time, remark) VALUES
-(165, 'dormitory_snoring', '是', '是', '', 'warning', '0', 'admin', sysdate(), ''),
-(166, 'dormitory_snoring', '否', '否', '', 'success', '0', 'admin', sysdate(), '');
+(163, 'dormitory_snoring', '是', '是', '', 'warning', '0', 'admin', sysdate(), ''),
+(164, 'dormitory_snoring', '否', '否', '', 'success', '0', 'admin', sysdate(), '');
 
 -- 填写状态
 INSERT INTO sys_dict_data (dict_code, dict_type, dict_label, dict_value, css_class, list_class, status, create_by, create_time, remark) VALUES
-(163, 'sys_fill_status', '未填写', '0', '', 'info', '0', 'admin', sysdate(), ''),
-(164, 'sys_fill_status', '已填写', '1', '', 'success', '0', 'admin', sysdate(), '');
+(165, 'sys_fill_status', '未填写', '0', '', 'info', '0', 'admin', sysdate(), ''),
+(166, 'sys_fill_status', '已填写', '1', '', 'success', '0', 'admin', sysdate(), '');

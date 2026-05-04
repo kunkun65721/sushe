@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sushe.susheguanli.mapper.MyStudentHabitMapper">
+    
+    <resultMap type="MyStudentHabit" id="MyStudentHabitResult">
+        <result property="habitId"    column="habit_id"    />
+        <result property="studentId"    column="student_id"    />
+        <result property="sleepHabit"    column="sleep_habit"    />
+        <result property="sleepTime"    column="sleep_time"    />
+        <result property="wakeTime"    column="wake_time"    />
+        <result property="napHabit"    column="nap_habit"    />
+        <result property="bathFrequency"    column="bath_frequency"    />
+        <result property="cleanImportance"    column="clean_importance"    />
+        <result property="tolerateDirty"    column="tolerate_dirty"    />
+        <result property="studyLocation"    column="study_location"    />
+        <result property="friendVisit"    column="friend_visit"    />
+        <result property="gamingMic"    column="gaming_mic"    />
+        <result property="snoring"    column="snoring"    />
+        <result property="fillStatus"    column="fill_status"    />
+        <result property="fillTime"    column="fill_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectMyStudentHabitVo">
+        select habit_id, student_id, sleep_habit, sleep_time, wake_time, nap_habit, bath_frequency, clean_importance, tolerate_dirty, study_location, friend_visit, gaming_mic, snoring, fill_status, fill_time, create_by, create_time, update_by, update_time from my_student_habit
+    </sql>
+
+    <select id="selectMyStudentHabitList" parameterType="MyStudentHabit" resultMap="MyStudentHabitResult">
+        <include refid="selectMyStudentHabitVo"/>
+        <where>  
+            <if test="studentId != null "> and student_id = #{studentId}</if>
+            <if test="fillStatus != null  and fillStatus != ''"> and fill_status = #{fillStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectMyStudentHabitByHabitId" parameterType="Long" resultMap="MyStudentHabitResult">
+        <include refid="selectMyStudentHabitVo"/>
+        where habit_id = #{habitId}
+    </select>
+
+    <insert id="insertMyStudentHabit" parameterType="MyStudentHabit" useGeneratedKeys="true" keyProperty="habitId">
+        insert into my_student_habit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">student_id,</if>
+            <if test="sleepHabit != null and sleepHabit != ''">sleep_habit,</if>
+            <if test="sleepTime != null and sleepTime != ''">sleep_time,</if>
+            <if test="wakeTime != null and wakeTime != ''">wake_time,</if>
+            <if test="napHabit != null and napHabit != ''">nap_habit,</if>
+            <if test="bathFrequency != null and bathFrequency != ''">bath_frequency,</if>
+            <if test="cleanImportance != null and cleanImportance != ''">clean_importance,</if>
+            <if test="tolerateDirty != null and tolerateDirty != ''">tolerate_dirty,</if>
+            <if test="studyLocation != null and studyLocation != ''">study_location,</if>
+            <if test="friendVisit != null and friendVisit != ''">friend_visit,</if>
+            <if test="gamingMic != null and gamingMic != ''">gaming_mic,</if>
+            <if test="snoring != null and snoring != ''">snoring,</if>
+            <if test="fillStatus != null and fillStatus != ''">fill_status,</if>
+            <if test="fillTime != null">fill_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentId != null">#{studentId},</if>
+            <if test="sleepHabit != null and sleepHabit != ''">#{sleepHabit},</if>
+            <if test="sleepTime != null and sleepTime != ''">#{sleepTime},</if>
+            <if test="wakeTime != null and wakeTime != ''">#{wakeTime},</if>
+            <if test="napHabit != null and napHabit != ''">#{napHabit},</if>
+            <if test="bathFrequency != null and bathFrequency != ''">#{bathFrequency},</if>
+            <if test="cleanImportance != null and cleanImportance != ''">#{cleanImportance},</if>
+            <if test="tolerateDirty != null and tolerateDirty != ''">#{tolerateDirty},</if>
+            <if test="studyLocation != null and studyLocation != ''">#{studyLocation},</if>
+            <if test="friendVisit != null and friendVisit != ''">#{friendVisit},</if>
+            <if test="gamingMic != null and gamingMic != ''">#{gamingMic},</if>
+            <if test="snoring != null and snoring != ''">#{snoring},</if>
+            <if test="fillStatus != null and fillStatus != ''">#{fillStatus},</if>
+            <if test="fillTime != null">#{fillTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMyStudentHabit" parameterType="MyStudentHabit">
+        update my_student_habit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="studentId != null">student_id = #{studentId},</if>
+            <if test="sleepHabit != null and sleepHabit != ''">sleep_habit = #{sleepHabit},</if>
+            <if test="sleepTime != null and sleepTime != ''">sleep_time = #{sleepTime},</if>
+            <if test="wakeTime != null and wakeTime != ''">wake_time = #{wakeTime},</if>
+            <if test="napHabit != null and napHabit != ''">nap_habit = #{napHabit},</if>
+            <if test="bathFrequency != null and bathFrequency != ''">bath_frequency = #{bathFrequency},</if>
+            <if test="cleanImportance != null and cleanImportance != ''">clean_importance = #{cleanImportance},</if>
+            <if test="tolerateDirty != null and tolerateDirty != ''">tolerate_dirty = #{tolerateDirty},</if>
+            <if test="studyLocation != null and studyLocation != ''">study_location = #{studyLocation},</if>
+            <if test="friendVisit != null and friendVisit != ''">friend_visit = #{friendVisit},</if>
+            <if test="gamingMic != null and gamingMic != ''">gaming_mic = #{gamingMic},</if>
+            <if test="snoring != null and snoring != ''">snoring = #{snoring},</if>
+            <if test="fillStatus != null and fillStatus != ''">fill_status = #{fillStatus},</if>
+            <if test="fillTime != null">fill_time = #{fillTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where habit_id = #{habitId}
+    </update>
+
+    <delete id="deleteMyStudentHabitByHabitId" parameterType="Long">
+        delete from my_student_habit where habit_id = #{habitId}
+    </delete>
+
+    <delete id="deleteMyStudentHabitByHabitIds" parameterType="String">
+        delete from my_student_habit where habit_id in 
+        <foreach item="habitId" collection="array" open="(" separator="," close=")">
+            #{habitId}
+        </foreach>
+    </delete>
+</mapper>
